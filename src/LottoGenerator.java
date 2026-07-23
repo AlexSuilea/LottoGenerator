@@ -23,10 +23,9 @@ public class LottoGenerator  {
 
         Collections.shuffle(numbers);
 
-        List<Integer> ticket = numbers.stream()
+        return numbers.stream()
                 .limit(6)
                 .sorted()
                 .toList();
-        return ticket;
     }
 }
