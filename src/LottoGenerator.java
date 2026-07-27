@@ -1,17 +1,15 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.security.SecureRandom;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class LottoGenerator  {
     public static void main(String[] args) {
-        List<Integer> ticketA = getTicket();
-        List<Integer> ticketB = getTicket();
-        List<Integer> ticketC = getTicket();
 
-        System.out.println("Zona A: " + ticketA);
-        System.out.println("Zona B: " + ticketB);
-        System.out.println("Zona C: " + ticketC);
+        Set<List<Integer>> tickets = new HashSet<>();
+        while(tickets.size() < 3) {
+            tickets.add(getTicket());
+        }
+        tickets.forEach(System.out::println);
     }
 
     private static List<Integer> getTicket() {
@@ -21,7 +19,7 @@ public class LottoGenerator  {
                         .toList()
         );
 
-        Collections.shuffle(numbers);
+        Collections.shuffle(numbers, new SecureRandom());
 
         return numbers.stream()
                 .limit(6)
