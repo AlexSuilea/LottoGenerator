@@ -1,62 +1,39 @@
-import java.security.SecureRandom;
-import java.util.*;
-import java.util.stream.IntStream;
+import java.math.BigDecimal;
 
 public class LottoGenerator  {
-    private static final SecureRandom RANDOM = new SecureRandom();
-
+    private static final BigDecimal LOTTO649_PRICE = BigDecimal.valueOf(8);
+    private static final BigDecimal LOTTO540_PRICE = BigDecimal.valueOf(5);
     public static void main(String[] args) {
-        printTickets("Loto 6/49:", 3, 6, 49);
-        printTickets("Loto 5/40:", 4, 5, 40);
-        getJokerTickets(2);
-    }
+        int lotto649TicketCount = 1;
+        int lotto540TicketCount = 1;
+        int jokerTicketCount = 1;
 
-    private static void printTickets(String game, int ticketCount, int numbers, int maxNumber) {
-        if(ticketCount <= 0) {
-            return;
-        }
-        System.out.println(game);
-        Set<List<Integer>> tickets = new LinkedHashSet<>();
-        while (tickets.size() < ticketCount) {
-            tickets.add(getTicket(numbers, maxNumber));
-        }
-        tickets.forEach(System.out::println);
-        System.out.println();
-    }
-
-    private static void getJokerTickets(int numberOfTickets) {
-        if(numberOfTickets <= 0) {
-            return;
-        }
-        System.out.println("Joker:");
-        Set<String> jokerTickets = new HashSet<>();
-        while(jokerTickets.size() < numberOfTickets) {
-            int jokerNumber = getJokerNumber();
-            jokerTickets.add(getTicket(5, 45) + " | Joker: " + jokerNumber);
-        }
-        jokerTickets.forEach(System.out::println);
-        System.out.println();
-    }
-
-    private static int getJokerNumber() {
-        return RANDOM.nextInt(20) + 1;
-    }
-
-    private static List<Integer> getTicket(int numberOfNumbers, int maxNumber) {
-        if (numberOfNumbers <= 0 || numberOfNumbers > maxNumber) {
-            throw new IllegalArgumentException(
-                    "numberOfNumbers must be between 1 and maxNumber"
-            );
-        }
-        List<Integer> numbers = new ArrayList<>(
-                IntStream.rangeClosed(1,maxNumber)
-                        .boxed()
-                        .toList()
+        BigDecimal lotto649Cost = LottoMachine.printTickets(
+                "Loto 6/49:",
+                lotto649TicketCount,
+                6,
+                49,
+                LOTTO649_PRICE,
+                3
         );
-        Collections.shuffle(numbers, RANDOM);
-        return numbers.stream()
-                .limit(numberOfNumbers)
-                .sorted()
-                .toList();
+
+        BigDecimal lotto540Cost = LottoMachine.printTickets(
+                "Loto 5/40:",
+                lotto540TicketCount,
+                5,
+                40,
+                LOTTO540_PRICE,
+                4
+        );
+
+        BigDecimal jokerCost = LottoMachine.printJokerTickets(jokerTicketCount);
+
+        BigDecimal totalCost = lotto649Cost
+                .add(lotto540Cost)
+                .add(jokerCost);
+
+        System.out.println("Cost total: " + LottoMachine.formatPrice(totalCost));
     }
+
+
 }
