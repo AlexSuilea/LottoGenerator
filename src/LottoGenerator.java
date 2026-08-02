@@ -6,43 +6,40 @@ public class LottoGenerator  {
     private static final SecureRandom RANDOM = new SecureRandom();
 
     public static void main(String[] args) {
-        System.out.println("Loto 6/49:");
-        getLotto649Tickets(3);
-
-        System.out.println("Joker:");
+        printTickets("Loto 6/49:", 3, 6, 49);
+        printTickets("Loto 5/40:", 4, 5, 40);
         getJokerTickets(2);
-
-        System.out.println("Loto 5/40:");
-        getLotto540Tickets(4);
     }
 
-    private static void getLotto649Tickets(int numberOfTickets) {
-        Set<List<Integer>> lotto649Tickets = new HashSet<>();
-        while(lotto649Tickets.size() < numberOfTickets) {
-            lotto649Tickets.add(getTicket(6,49));
+    private static void printTickets(String game, int ticketCount, int numbers, int maxNumber) {
+        if(ticketCount <= 0) {
+            return;
         }
-        lotto649Tickets.forEach(System.out::println);
+        System.out.println(game);
+        Set<List<Integer>> tickets = new LinkedHashSet<>();
+        while (tickets.size() < ticketCount) {
+            tickets.add(getTicket(numbers, maxNumber));
+        }
+        tickets.forEach(System.out::println);
+        System.out.println();
     }
 
     private static void getJokerTickets(int numberOfTickets) {
+        if(numberOfTickets <= 0) {
+            return;
+        }
+        System.out.println("Joker:");
         Set<String> jokerTickets = new HashSet<>();
         while(jokerTickets.size() < numberOfTickets) {
             int jokerNumber = getJokerNumber();
             jokerTickets.add(getTicket(5, 45) + " | Joker: " + jokerNumber);
         }
         jokerTickets.forEach(System.out::println);
+        System.out.println();
     }
 
     private static int getJokerNumber() {
         return RANDOM.nextInt(20) + 1;
-    }
-
-    private static void getLotto540Tickets(int numberOfTickets) {
-        Set<List<Integer>> lotto540Tickets = new HashSet<>();
-        while(lotto540Tickets.size() < numberOfTickets) {
-            lotto540Tickets.add(getTicket(5,40));
-        }
-        lotto540Tickets.forEach(System.out::println);
     }
 
     private static List<Integer> getTicket(int numberOfNumbers, int maxNumber) {
