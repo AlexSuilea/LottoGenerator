@@ -4,9 +4,9 @@ public class LottoGenerator  {
     private static final BigDecimal LOTTO649_PRICE = BigDecimal.valueOf(8);
     private static final BigDecimal LOTTO540_PRICE = BigDecimal.valueOf(5);
     public static void main(String[] args) {
-        int lotto649TicketCount = 1;
-        int lotto540TicketCount = 1;
-        int jokerTicketCount = 1;
+        int lotto649TicketCount = 3;
+        int lotto540TicketCount = 4;
+        int jokerTicketCount = 2;
 
         BigDecimal lotto649Cost = LottoMachine.printTickets(
                 "Loto 6/49:",
@@ -34,6 +34,4 @@ public class LottoGenerator  {
 
         System.out.println("Cost total: " + LottoMachine.formatPrice(totalCost));
     }
-
-
 }
