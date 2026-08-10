@@ -6,15 +6,16 @@ public final class ExactLottoAnalyzer {
     private static final int MAX_NUMBER = 49;
     private static final int NUMBERS_PER_DRAW = 6;
 
-    public static void compare(List<List<Integer>> randomTickets, List<List<Integer>> smartTickets) {
-        validateTickets(randomTickets);
-        validateTickets(smartTickets);
+    public static void compare(String firstStrategyName, List<List<Integer>> firstTickets, String secondStrategyName,
+                               List<List<Integer>> secondTickets) {
+        validateTickets(firstTickets);
+        validateTickets(secondTickets);
 
-        long[] randomMasks = convertToMasks(randomTickets);
-        long[] smartMasks = convertToMasks(smartTickets);
+        long[] firstMasks = convertToMasks(firstTickets);
+        long[] secondMasks = convertToMasks(secondTickets);
 
-        long[] randomResults = new long[NUMBERS_PER_DRAW + 1];
-        long[] smartResults = new long[NUMBERS_PER_DRAW + 1];
+        long[] firstResults = new long[NUMBERS_PER_DRAW + 1];
+        long[] secondResults = new long[NUMBERS_PER_DRAW + 1];
 
         long totalDraws = 0;
 
@@ -26,12 +27,11 @@ public final class ExactLottoAnalyzer {
                             for (int f = e + 1; f <= 49; f++) {
 
                                 long winningMask = toMask(a, b, c, d, e, f);
-                                int randomBest = calculateBestMatch(randomMasks, winningMask);
+                                int firstBest = calculateBestMatch(firstMasks, winningMask);
+                                int secondBest = calculateBestMatch(secondMasks, winningMask);
 
-                                int smartBest = calculateBestMatch(smartMasks, winningMask);
-
-                                randomResults[randomBest]++;
-                                smartResults[smartBest]++;
+                                firstResults[firstBest]++;
+                                secondResults[secondBest]++;
 
                                 totalDraws++;
                             }
@@ -41,7 +41,7 @@ public final class ExactLottoAnalyzer {
             }
         }
 
-        printResults(randomResults, smartResults, totalDraws);
+        printResults(firstStrategyName, firstResults, secondStrategyName, secondResults, totalDraws);
     }
 
     private static long[] convertToMasks(List<List<Integer>> tickets) {
@@ -91,7 +91,13 @@ public final class ExactLottoAnalyzer {
         return bestMatch;
     }
 
-    private static void printResults(long[] randomResults, long[] smartResults, long totalDraws) {
+    private static void printResults(
+            String firstStrategyName,
+            long[] firstResults,
+            String secondStrategyName,
+            long[] secondResults,
+            long totalDraws
+    ) {
         System.out.println();
         System.out.println(
                 "========== EXACT RESULTS =========="
@@ -103,12 +109,7 @@ public final class ExactLottoAnalyzer {
 
         System.out.println();
 
-        System.out.printf(
-                "%-10s %24s %24s%n",
-                "Best hit",
-                "RANDOM",
-                "SMART"
-        );
+        System.out.printf("%-10s %24s %24s%n", "Best hit", firstStrategyName, secondStrategyName);
 
         for (int matches = 0;
              matches <= NUMBERS_PER_DRAW;
@@ -118,14 +119,14 @@ public final class ExactLottoAnalyzer {
                     Locale.US,
                     "%-10s %10d (%10.6f%%) %10d (%10.6f%%)%n",
                     matches + "/6",
-                    randomResults[matches],
+                    firstResults[matches],
                     percentage(
-                            randomResults[matches],
+                            firstResults[matches],
                             totalDraws
                     ),
-                    smartResults[matches],
+                    secondResults[matches],
                     percentage(
-                            smartResults[matches],
+                            secondResults[matches],
                             totalDraws
                     )
             );
@@ -138,31 +139,32 @@ public final class ExactLottoAnalyzer {
              minimumMatches <= NUMBERS_PER_DRAW;
              minimumMatches++) {
 
-            long randomAtLeast =
+            long firstAtLeast =
                     countAtLeast(
-                            randomResults,
+                            firstResults,
                             minimumMatches
                     );
 
-            long smartAtLeast =
+            long secondAtLeast =
                     countAtLeast(
-                            smartResults,
+                            secondResults,
                             minimumMatches
                     );
 
             System.out.printf(
                     Locale.US,
-                    "%d+/6 -> RANDOM: %d (%.6f%%)"
-                            + " | SMART: %d (%.6f%%)%n",
+                    "%d+/6 -> %s: %d (%.6f%%) | %s: %d (%.6f%%)%n",
                     minimumMatches,
-                    randomAtLeast,
+                    firstStrategyName,
+                    firstAtLeast,
                     percentage(
-                            randomAtLeast,
+                            firstAtLeast,
                             totalDraws
                     ),
-                    smartAtLeast,
+                    secondStrategyName,
+                    secondAtLeast,
                     percentage(
-                            smartAtLeast,
+                            secondAtLeast,
                             totalDraws
                     )
             );
