@@ -24,7 +24,7 @@ public class LottoMachine {
         Set<List<Integer>> tickets = new LinkedHashSet<>();
 
         while (tickets.size() < ticketCount) {
-            tickets.add(getTicket(numbersPerTicket, maxNumber));
+            tickets.add(generateTicket(numbersPerTicket, maxNumber));
         }
 
         tickets.forEach(System.out::println);
@@ -51,7 +51,7 @@ public class LottoMachine {
         while(jokerTickets.size() < ticketCount) {
             int jokerNumber = RANDOM.nextInt(1, 21);
 
-            jokerTickets.add(getTicket(5, 45) + " | Joker: " + jokerNumber);
+            jokerTickets.add(generateTicket(5, 45) + " | Joker: " + jokerNumber);
         }
         jokerTickets.forEach(System.out::println);
 
@@ -63,7 +63,7 @@ public class LottoMachine {
         return cost;
     }
 
-    private static List<Integer> getTicket(int numberOfNumbers, int maxNumber) {
+    public static List<Integer> generateTicket(int numberOfNumbers, int maxNumber) {
         if (numberOfNumbers <= 0 || numberOfNumbers > maxNumber) {
             throw new IllegalArgumentException(INVALID_ARGUMENTS);
         }
