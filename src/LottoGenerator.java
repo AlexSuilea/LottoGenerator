@@ -1,62 +1,21 @@
 import java.util.List;
 
 public class LottoGenerator {
+    private static final int DEFAULT_CANDIDATES_PER_TICKET = 1000;
 
     public static void main(String[] args) {
-
-        int ticketCount = 10;
-        int candidatesPerTicket = 10_000;
-
-        List<List<Integer>> combinatorialTickets =
+        List<List<Integer>> tickets =
                 CombinatorialSmartTicketGenerator.generateTickets(
-                        ticketCount,
-                        candidatesPerTicket
+                        12,
+                        DEFAULT_CANDIDATES_PER_TICKET
                 );
 
-        System.out.println("BEFORE PORTFOLIO OPTIMIZATION:");
-        combinatorialTickets.forEach(System.out::println);
-
-        PortfolioOptimizer.OptimizationResult optimizationResult =
-                PortfolioOptimizer.optimize(
-                        combinatorialTickets,
-                        25_000,
-                        5_000,
-                        20260810L
-                );
-
-        List<List<Integer>> optimizedTickets =
-                optimizationResult.tickets();
-
-        System.out.println();
-        System.out.println("3+ PORTFOLIO OPTIMIZED:");
-        optimizedTickets.forEach(System.out::println);
-
-        System.out.printf(
-                "Training sample 3+ coverage: %.4f%%%n",
-                optimizationResult.coveragePercentage()
-        );
-
-        System.out.println(
-                "Distinct numbers: "
-                        + optimizationResult.distinctNumbers()
-        );
-
-        System.out.println(
-                "Accepted mutations: "
-                        + optimizationResult.acceptedMutations()
-        );
+        tickets.forEach(System.out::println);
 
         TicketAnalyzer.printAnalysis(
-                "3+ PORTFOLIO OPTIMIZED",
-                optimizedTickets,
-                49
-        );
-
-        ExactLottoAnalyzer.compare(
                 "COMBINATORIAL",
-                combinatorialTickets,
-                "OPTIMIZED",
-                optimizedTickets
+                tickets,
+                49
         );
     }
 }
