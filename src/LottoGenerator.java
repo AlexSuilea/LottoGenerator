@@ -49,33 +49,33 @@ public class LottoGenerator  {
 //        System.out.println();
 //
 //        int comparisonTicketCount = 10;
-////
-////        List<List<Integer>> randomTickets =
-////                new java.util.ArrayList<>();
-////
-////        while (randomTickets.size() < comparisonTicketCount) {
-////
-////            List<Integer> ticket =
-////                    LottoMachine.generateTicket(6, 49);
-////
-////            if (!randomTickets.contains(ticket)) {
-////                randomTickets.add(ticket);
-////            }
-////        }
-////
-////        List<List<Integer>> smartTickets =
-////                SmartTicketGenerator.generateDiversifiedTickets(
-////                        comparisonTicketCount,
-////                        10_000
-////                );
-////
-////        System.out.println("Random tickets:");
-////        randomTickets.forEach(System.out::println);
-////
-////        System.out.println();
-////
-////        System.out.println("Smart tickets:");
-////        smartTickets.forEach(System.out::println);
+//
+//        List<List<Integer>> randomTickets =
+//                new java.util.ArrayList<>();
+//
+//        while (randomTickets.size() < comparisonTicketCount) {
+//
+//            List<Integer> ticket =
+//                    LottoMachine.generateTicket(6, 49);
+//
+//            if (!randomTickets.contains(ticket)) {
+//                randomTickets.add(ticket);
+//            }
+//        }
+//
+//        List<List<Integer>> smartTickets =
+//                SmartTicketGenerator.generateDiversifiedTickets(
+//                        comparisonTicketCount,
+//                        10_000
+//                );
+//
+//        System.out.println("Random tickets:");
+//        randomTickets.forEach(System.out::println);
+//
+//        System.out.println();
+//
+//        System.out.println("Smart tickets:");
+//        smartTickets.forEach(System.out::println);
 //
 //        TicketAnalyzer.printAnalysis(
 //                "RANDOM",
@@ -95,49 +95,70 @@ public class LottoGenerator  {
 //                1_000_000,   // extrageri simulate
 //                20260810L    // seed
 //        );
+//
+//        int comparisonTicketCount = 10;
+//
+//        List<List<Integer>> randomTickets = new ArrayList<>();
+//
+//        while (randomTickets.size() < comparisonTicketCount) {
+//
+//            List<Integer> ticket = LottoMachine.generateTicket(6, 49);
+//
+//            if (!randomTickets.contains(ticket)) {
+//                randomTickets.add(ticket);
+//            }
+//        }
+//
+//        List<List<Integer>> smartTickets =
+//                SmartTicketGenerator.generateDiversifiedTickets(
+//                        comparisonTicketCount,
+//                        10_000
+//                );
+//
+//        System.out.println("Random tickets:");
+//        randomTickets.forEach(System.out::println);
+//
+//        System.out.println();
+//
+//        System.out.println("Smart tickets:");
+//        smartTickets.forEach(System.out::println);
+//
+//        TicketAnalyzer.printAnalysis(
+//                "RANDOM",
+//                randomTickets,
+//                49
+//        );
+//
+//        TicketAnalyzer.printAnalysis(
+//                "SMART",
+//                smartTickets,
+//                49
+//        );
+//
+//        ExactLottoAnalyzer.compare(
+//                randomTickets,
+//                smartTickets
+//        );
 
-        int comparisonTicketCount = 10;
+        System.out.println();
+        System.out.println(
+                "COMBINATORIAL SMART tickets:"
+        );
 
-        List<List<Integer>> randomTickets = new ArrayList<>();
-
-        while (randomTickets.size() < comparisonTicketCount) {
-
-            List<Integer> ticket = LottoMachine.generateTicket(6, 49);
-
-            if (!randomTickets.contains(ticket)) {
-                randomTickets.add(ticket);
-            }
-        }
-
-        List<List<Integer>> smartTickets =
-                SmartTicketGenerator.generateDiversifiedTickets(
-                        comparisonTicketCount,
+        List<List<Integer>> combinatorialTickets =
+                CombinatorialSmartTicketGenerator.generateTickets(
+                        10,
                         10_000
                 );
 
-        System.out.println("Random tickets:");
-        randomTickets.forEach(System.out::println);
-
-        System.out.println();
-
-        System.out.println("Smart tickets:");
-        smartTickets.forEach(System.out::println);
-
-        TicketAnalyzer.printAnalysis(
-                "RANDOM",
-                randomTickets,
-                49
+        combinatorialTickets.forEach(
+                System.out::println
         );
 
         TicketAnalyzer.printAnalysis(
-                "SMART",
-                smartTickets,
+                "COMBINATORIAL SMART",
+                combinatorialTickets,
                 49
-        );
-
-        ExactLottoAnalyzer.compare(
-                randomTickets,
-                smartTickets
         );
     }
 }
