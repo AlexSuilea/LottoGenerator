@@ -133,7 +133,7 @@ public class SmartTicketGenerator {
         return score;
     }
 
-    private static int calculateOverlap(List<Integer> candidate, List<Integer> existingTicket) {
+    public static int calculateOverlap(List<Integer> candidate, List<Integer> existingTicket) {
         int overlap = 0;
         for (Integer number : candidate) {
             if(existingTicket.contains(number)) overlap++;
