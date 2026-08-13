@@ -12,14 +12,11 @@ public class LottoMachine {
 
     private static final SecureRandom RANDOM = new SecureRandom();
 
-    private static final String INVALID_ARGUMENTS =
-            "numberOfNumbers must be between 1 and maxNumber";
+    private static final String INVALID_ARGUMENTS = "numberOfNumbers must be between 1 and maxNumber";
 
-    private static final BigDecimal TRANSACTION_FEE =
-            BigDecimal.valueOf(0.5);
+    private static final BigDecimal TRANSACTION_FEE = BigDecimal.valueOf(0.5);
 
-    private static final BigDecimal JOKER_PRICE =
-            BigDecimal.valueOf(7);
+    private static final BigDecimal JOKER_PRICE = BigDecimal.valueOf(7);
 
     private static final int JOKER_NUMBERS_PER_TICKET = 5;
     private static final int JOKER_MAX_NUMBER = 45;
