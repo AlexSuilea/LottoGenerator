@@ -1,26 +1,41 @@
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.SecureRandom;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 public class LottoMachine {
+
     private static final SecureRandom RANDOM = new SecureRandom();
-    private static final String INVALID_ARGUMENTS = "numberOfNumbers must be between 1 and maxNumber";
-    private static final BigDecimal TRANSACTION_FEE = BigDecimal.valueOf(0.5);
-    private static final BigDecimal JOKER_PRICE = BigDecimal.valueOf(7);
+
+    private static final String INVALID_ARGUMENTS =
+            "numberOfNumbers must be between 1 and maxNumber";
+
+    private static final BigDecimal TRANSACTION_FEE =
+            BigDecimal.valueOf(0.5);
+
+    private static final BigDecimal JOKER_PRICE =
+            BigDecimal.valueOf(7);
+
+    private static final int JOKER_NUMBERS_PER_TICKET = 5;
+    private static final int JOKER_MAX_NUMBER = 45;
+    private static final int JOKER_MAX_EXTRA_NUMBER = 20;
+    private static final int JOKER_ZONES_PER_SLIP = 2;
 
     public static BigDecimal printTickets(String game, int ticketCount, int numbersPerTicket, int maxNumber,
-                                           BigDecimal pricePerVariant, int zonesPerSlip) {
-        if (ticketCount < 0) {
-            throw new IllegalArgumentException("ticketCount must not be negative");
-        }
+                                          BigDecimal pricePerVariant, int zonesPerSlip) {
+        validateTicketCount(ticketCount);
 
-        if(ticketCount == 0) {
+        if (ticketCount == 0) {
             return BigDecimal.ZERO;
         }
 
         System.out.println(game);
+
         Set<List<Integer>> tickets = new LinkedHashSet<>();
 
         while (tickets.size() < ticketCount) {
@@ -33,29 +48,37 @@ public class LottoMachine {
 
         System.out.println("Cost: " + formatPrice(cost));
         System.out.println();
+
         return cost;
     }
 
     public static BigDecimal printJokerTickets(int ticketCount) {
-        if (ticketCount < 0) {
-            throw new IllegalArgumentException("ticketCount must not be negative");
-        }
+        validateTicketCount(ticketCount);
 
-        if(ticketCount == 0) {
+        if (ticketCount == 0) {
             return BigDecimal.ZERO;
         }
 
         System.out.println("Joker:");
+
         Set<String> jokerTickets = new LinkedHashSet<>();
 
-        while(jokerTickets.size() < ticketCount) {
-            int jokerNumber = RANDOM.nextInt(1, 21);
+        while (jokerTickets.size() < ticketCount) {
+            int jokerNumber = RANDOM.nextInt(1, JOKER_MAX_EXTRA_NUMBER + 1);
 
-            jokerTickets.add(generateTicket(5, 45) + " | Joker: " + jokerNumber);
+            jokerTickets.add(
+                    generateTicket(
+                            JOKER_NUMBERS_PER_TICKET,
+                            JOKER_MAX_NUMBER
+                    )
+                            + " | Joker: "
+                            + jokerNumber
+            );
         }
+
         jokerTickets.forEach(System.out::println);
 
-        BigDecimal cost = calculateCost(ticketCount, JOKER_PRICE, 2);
+        BigDecimal cost = calculateCost(ticketCount, JOKER_PRICE, JOKER_ZONES_PER_SLIP);
 
         System.out.println("Cost: " + formatPrice(cost));
         System.out.println();
@@ -67,12 +90,15 @@ public class LottoMachine {
         if (numberOfNumbers <= 0 || numberOfNumbers > maxNumber) {
             throw new IllegalArgumentException(INVALID_ARGUMENTS);
         }
+
         List<Integer> numbers = new ArrayList<>(
-                IntStream.rangeClosed(1,maxNumber)
+                IntStream.rangeClosed(1, maxNumber)
                         .boxed()
                         .toList()
         );
+
         Collections.shuffle(numbers, RANDOM);
+
         return numbers.stream()
                 .limit(numberOfNumbers)
                 .sorted()
@@ -84,7 +110,11 @@ public class LottoMachine {
             throw new IllegalArgumentException("zonesPerSlip must be greater than 0");
         }
 
-        if (pricePerVariant == null || pricePerVariant.signum() < 0) {
+        if (pricePerVariant == null) {
+            throw new IllegalArgumentException("pricePerVariant must not be null");
+        }
+
+        if (pricePerVariant.signum() < 0) {
             throw new IllegalArgumentException("pricePerVariant must be non-negative");
         }
 
@@ -92,16 +122,11 @@ public class LottoMachine {
             return BigDecimal.ZERO;
         }
 
-        int numberOfSlips =
-                (numberOfVariants + zonesPerSlip - 1) / zonesPerSlip;
+        int numberOfSlips = (numberOfVariants + zonesPerSlip - 1) / zonesPerSlip;
 
-        BigDecimal variantsCost = pricePerVariant.multiply(
-                BigDecimal.valueOf(numberOfVariants)
-        );
+        BigDecimal variantsCost = pricePerVariant.multiply(BigDecimal.valueOf(numberOfVariants));
 
-        BigDecimal feesCost = TRANSACTION_FEE.multiply(
-                BigDecimal.valueOf(numberOfSlips)
-        );
+        BigDecimal feesCost = TRANSACTION_FEE.multiply(BigDecimal.valueOf(numberOfSlips));
 
         return variantsCost.add(feesCost);
     }
@@ -111,8 +136,12 @@ public class LottoMachine {
             throw new IllegalArgumentException("price must not be null");
         }
 
-        return price
-                .setScale(2, RoundingMode.HALF_UP)
-                + " RON";
+        return price.setScale(2, RoundingMode.HALF_UP) + " RON";
+    }
+
+    private static void validateTicketCount(int ticketCount) {
+        if (ticketCount < 0) {
+            throw new IllegalArgumentException("ticketCount must not be negative");
+        }
     }
 }

@@ -1,21 +1,39 @@
+import java.math.BigDecimal;
 import java.util.List;
 
 public class LottoGenerator {
-    private static final int DEFAULT_CANDIDATES_PER_TICKET = 1000;
+    private static final BigDecimal LOTTO649_PRICE = BigDecimal.valueOf(8);
+    private static final BigDecimal LOTTO540_PRICE = BigDecimal.valueOf(5);
 
     public static void main(String[] args) {
-        List<List<Integer>> tickets =
-                CombinatorialSmartTicketGenerator.generateTickets(
-                        12,
-                        DEFAULT_CANDIDATES_PER_TICKET
-                );
+        int lotto649TicketCount = 3;
+        int lotto540TicketCount = 4;
+        int jokerTicketCount = 2;
 
-        tickets.forEach(System.out::println);
-
-        TicketAnalyzer.printAnalysis(
-                "COMBINATORIAL",
-                tickets,
-                49
+        BigDecimal lotto649Cost = LottoMachine.printTickets(
+                "Loto 6/49:",
+                lotto649TicketCount,
+                6,
+                49,
+                LOTTO649_PRICE,
+                3
         );
+
+        BigDecimal lotto540Cost = LottoMachine.printTickets(
+                "Loto 5/40:",
+                lotto540TicketCount,
+                5,
+                40,
+                LOTTO540_PRICE,
+                4
+        );
+
+        BigDecimal jokerCost = LottoMachine.printJokerTickets(jokerTicketCount);
+
+        BigDecimal totalCost = lotto649Cost
+                .add(lotto540Cost)
+                .add(jokerCost);
+
+        System.out.println("Cost total: " + LottoMachine.formatPrice(totalCost));
     }
 }
