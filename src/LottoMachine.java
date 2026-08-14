@@ -141,4 +141,58 @@ public class LottoMachine {
             throw new IllegalArgumentException("ticketCount must not be negative");
         }
     }
+
+    public static Set<List<Integer>> generateTickets(
+            int ticketCount,
+            int numbersPerTicket,
+            int maxNumber
+    ) {
+        Set<List<Integer>> tickets = new LinkedHashSet<>();
+
+        while (tickets.size() < ticketCount) {
+            tickets.add(generateTicket(numbersPerTicket, maxNumber));
+        }
+
+        return tickets;
+    }
+
+    public static void testUniformity(int simulations, int numbersPerTicket, int maxNumber) {
+        long[] frequencies = new long[maxNumber + 1];
+
+        for (int i = 0; i < simulations; i++) {
+            List<Integer> ticket = generateTicket(numbersPerTicket, maxNumber);
+
+            for (int number : ticket) {
+                frequencies[number]++;
+            }
+        }
+
+        double expectedPercentage =
+                (double) numbersPerTicket / maxNumber * 100.0;
+
+        double expectedCount =
+                (double) simulations * numbersPerTicket / maxNumber;
+
+        System.out.printf(
+                "Expected per number: %.2f occurrences (%.4f%%)%n%n",
+                expectedCount,
+                expectedPercentage
+        );
+
+        for (int number = 1; number <= maxNumber; number++) {
+            double actualPercentage =
+                    frequencies[number] * 100.0 / simulations;
+
+            double difference =
+                    actualPercentage - expectedPercentage;
+
+            System.out.printf(
+                    "%2d -> %8d | %7.4f%% | diff: %+7.4f%%%n",
+                    number,
+                    frequencies[number],
+                    actualPercentage,
+                    difference
+            );
+        }
+    }
 }
