@@ -8,8 +8,8 @@ public class LottoGenerator {
     private static final BigDecimal LOTTO540_PRICE = BigDecimal.valueOf(5);
 
     public static void main(String[] args) {
-        int lotto649TicketCount = 12244;
-        int lotto540TicketCount = 0;
+        int lotto649TicketCount = 0;
+        int lotto540TicketCount = 1;
         int jokerTicketCount = 0;
 
         BigDecimal lotto649Cost = LottoMachine.printTickets(
@@ -38,24 +38,24 @@ public class LottoGenerator {
 
         System.out.println("Cost total: " + LottoMachine.formatPrice(totalCost));
 
-        Set<List<Integer>> tickets = LottoMachine.generateTickets(12244, 6, 49);
-
-        List<List<Integer>> winners = List.of(
-                List.of(12, 13, 36, 37, 44, 45),
-                List.of(5, 10, 21, 30, 41, 47),
-                List.of(2, 14, 26, 31, 38, 49)
-        );
-
-        winners.forEach(winner ->
-                System.out.println(
-                        winner + " -> " + tickets.contains(winner)
-                )
-        );
-
-        LottoMachine.testUniformity(
-                1_000_000,
-                6,
-                49
-        );
+//        Set<List<Integer>> tickets = LottoMachine.generateTickets(12244, 6, 49);
+//
+//        List<List<Integer>> winners = List.of(
+//                List.of(12, 13, 36, 37, 44, 45),
+//                List.of(5, 10, 21, 30, 41, 47),
+//                List.of(2, 14, 26, 31, 38, 49)
+//        );
+//
+//        winners.forEach(winner ->
+//                System.out.println(
+//                        winner + " -> " + tickets.contains(winner)
+//                )
+//        );
+//
+//        LottoMachine.testUniformity(
+//                1_000_000,
+//                6,
+//                49
+//        );
     }
 }
