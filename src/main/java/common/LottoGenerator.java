@@ -1,7 +1,6 @@
+package common;
+
 import java.math.BigDecimal;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 public class LottoGenerator {
     private static final BigDecimal LOTTO649_PRICE = BigDecimal.valueOf(8);
@@ -38,7 +37,7 @@ public class LottoGenerator {
 
         System.out.println("Cost total: " + LottoMachine.formatPrice(totalCost));
 
-//        Set<List<Integer>> tickets = LottoMachine.generateTickets(12244, 6, 49);
+//        Set<List<Integer>> tickets = common.LottoMachine.generateTickets(12244, 6, 49);
 //
 //        List<List<Integer>> winners = List.of(
 //                List.of(12, 13, 36, 37, 44, 45),
@@ -52,7 +51,7 @@ public class LottoGenerator {
 //                )
 //        );
 //
-//        LottoMachine.testUniformity(
+//        common.LottoMachine.testUniformity(
 //                1_000_000,
 //                6,
 //                49

@@ -1,3 +1,5 @@
+package common;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.SecureRandom;
