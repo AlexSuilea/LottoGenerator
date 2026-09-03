@@ -26,9 +26,8 @@ public class LegendaryLottoMain {
         var legendary649 =
                 Legendary649Optimizer.optimize(
                         history649,
-                        2,          // 2 bilete legendare
-                        250_000,
-                        649L
+                        3,          // 2 bilete legendare
+                        250_000
                 );
 
         System.out.println();
@@ -45,9 +44,8 @@ public class LegendaryLottoMain {
         var legendary540 =
                 Legendary540Optimizer.optimize(
                         history540,
-                        2,
-                        250_000,
-                        540L
+                        4,
+                        250_000
                 );
 
         System.out.println();

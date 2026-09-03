@@ -1,5 +1,6 @@
 package lotto.legendary;
 
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.random.RandomGenerator;
 import java.util.stream.IntStream;
@@ -15,9 +16,9 @@ public final class Legendary540Optimizer {
     public static Result optimize(
             List<LottoDraw> history,
             int ticketCount,
-            int simulations,
-            long seed
+            int simulations
     ) {
+        long seed = new SecureRandom().nextLong();
         Random random = new Random(seed);
 
         List<List<Integer>> best = null;
