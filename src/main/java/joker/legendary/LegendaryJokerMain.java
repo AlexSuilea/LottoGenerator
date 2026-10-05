@@ -153,10 +153,10 @@ public class LegendaryJokerMain {
                         + pair.first()
         );
 
-        System.out.println(
-                "Ticket B: "
-                        + pair.second()
-        );
+//        System.out.println(
+//                "Ticket B: "
+//                        + pair.second()
+//        );
     }
 
     private static void printHits(
