@@ -6,7 +6,7 @@ public class FrequentPrizeMain {
 
     public static void main(String[] args) {
 
-        int lotto649TicketCount = 4;
+        int lotto649TicketCount = 2;
         int lotto540TicketCount = 4;
 
         // ===== LOTO 6/49 =====
